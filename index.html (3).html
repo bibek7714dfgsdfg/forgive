@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f7fb;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 25px;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid #eef2f6;
+            position: relative;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .media-container {
+            width: 100%;
+            max-width: 260px;
+            height: auto;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cute-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .heart-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            animation: pulse 1.4s infinite ease-in-out;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #0f172a;
+            margin-bottom: 35px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            height: 60px;
+            position: relative;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px 36px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            user-select: none;
+        }
+
+        #yesBtn {
+            background-color: #3b82f6;
+            color: white;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        #noBtn {
+            background-color: #f1f5f9;
+            color: #64748b;
+            position: absolute;
+            z-index: 10;
+            transition: transform 0.25s cubic-bezier(0.215, 0.610, 0.355, 1);
+            will-change: transform;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .success-text {
+            font-size: 14.5px;
+            color: #475569;
+            line-height: 1.6;
+            text-align: left;
+            margin-top: 15px;
+            white-space: pre-line;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <!-- SCREEN 1: THE REQUEST -->
+        <div id="askScreen">
+            <div class="media-container">
+                <!-- Kept the sad hamster here first -->
+                <img class="cute-img" src="Sad Hamster I Am Sorry, Please Forgive Me! With Big Eyes And A Pink Bow Sticker.jfif" alt="Sad Hamster Please Forgive Me">
+            </div>
+            <h2>Will you forgive me, love?</h2>
+            <div class="btn-container" id="btnContainer">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: FORGIVEN (The Letter Screen) -->
+        <div id="successScreen" class="hidden">
+            <div class="tag">For you</div>
+            <div>
+                <!-- Your animated blue heart sticker -->
+                <img class="heart-img" src="blue-heart.png" alt="Blue Heart">
+            </div>
+            
+            <!-- The cute kitten with flowers shows up right here now! -->
+            <div class="media-container" style="max-width: 200px; margin-bottom: 15px;">
+                <img class="cute-img" src="download (42).jfif" alt="Cute Cat With Flowers">
+            </div>
+
+            <h2 style="margin-bottom: 15px;">Yay! Thank you, my favorite human 💖</h2>
+            <div class="success-text">
+                I am so incredibly sorry for upsetting you. The last thing I ever want to do is make you feel sad or bring a cloud over your day. You mean absolutely everything to me, and seeing you unhappy completely breaks my heart. 
+
+                Thank you for your sweet patience and for giving me another chance. I love everything about us, and I promise to put in the effort to protect your smile and make you feel as cherished, safe, and happy as you make me. 
+
+                You're my absolute favorite person, and I love you more than words can say! 🥺✨
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const askScreen = document.getElementById('askScreen');
+        const successScreen = document.getElementById('successScreen');
+        const container = document.getElementById('btnContainer');
+
+        function resetNoButton() {
+            const containerWidth = container.clientWidth;
+            const gap = 16; 
+            const initialX = (containerWidth / 2) + (gap / 2);
+            noBtn.style.left = `0px`;
+            noBtn.style.top = `5px`;
+            noBtn.style.transform = `translate3d(${initialX}px, 0px, 0)`;
+        }
+
+        window.addEventListener('load', resetNoButton);
+        window.addEventListener('resize', resetNoButton);
+
+        function moveNoButton(e) {
+            e.preventDefault(); 
+            
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            const maxX = (containerRect.width / 2) - (btnRect.width / 2) - 10;
+            const minX = -(containerRect.width / 2) + (btnRect.width / 2) + 10;
+            
+            const minY = -120; 
+            const maxY = 15;
+
+            let randomX = Math.random() * (maxX - minX) + minX;
+            let randomY = Math.random() * (maxY - minY) + minY;
+
+            if (Math.abs(randomY) < 30 && Math.abs(randomX) < 40) {
+                randomY -= 40;
+                randomX += 40;
+            }
+
+            requestAnimationFrame(() => {
+                noBtn.style.transform = `translate3d(${randomX}px, ${randomY}px, 0)`;
+            });
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+
+        yesBtn.addEventListener('click', () => {
+            askScreen.classList.add('hidden');
+            successScreen.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
