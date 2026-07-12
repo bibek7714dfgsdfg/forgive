@@ -147,8 +147,8 @@
         <!-- SCREEN 1: THE REQUEST -->
         <div id="askScreen">
             <div class="media-container">
-                <!-- Local Orange Cat -->
-                <img class="cute-img" src="start.jpg" alt="I'm sorry please forgive me">
+                <!-- Smart Image with automatic extension fallbacks -->
+                <img id="startImg" class="cute-img" src="start.jpg" alt="I'm sorry please forgive me">
             </div>
             <h2>Will you forgive me, love?</h2>
             <div class="btn-container" id="btnContainer">
@@ -161,13 +161,11 @@
         <div id="successScreen" class="hidden">
             <div class="tag">For you</div>
             <div>
-                <!-- Local Blue Heart -->
-                <img class="heart-img" src="heart.png" alt="Blue Heart">
+                <img id="heartImg" class="heart-img" src="heart.png" alt="Blue Heart">
             </div>
             
             <div class="media-container" style="max-width: 230px; margin-bottom: 15px;">
-                <!-- Local Grey Cat -->
-                <img class="cute-img" src="letter.jpg" alt="Cute Cat With Pink Bows">
+                <img id="letterImg" class="cute-img" src="letter.jpg" alt="Cute Cat With Pink Bows">
             </div>
 
             <h2 style="margin-bottom: 15px;">Yay! Thank you, my favorite human 💖</h2>
@@ -188,6 +186,24 @@
         const successScreen = document.getElementById('successScreen');
         const container = document.getElementById('btnContainer');
 
+        // --- FOOLPROOF IMAGE FALLBACKS ---
+        // If an extension fails, it tries the next one automatically
+        setupImageFallback('startImg', ['start.jpg', 'start.jfif', 'start.png', 'https://pub-c5e31b5cdafb419a86a69d5d340302ad.r2.dev/start.jfif']);
+        setupImageFallback('letterImg', ['letter.jpg', 'letter.jfif', 'letter.png', 'https://pub-c5e31b5cdafb419a86a69d5d340302ad.r2.dev/letter.jfif']);
+        setupImageFallback('heartImg', ['heart.png', 'heart.jpg', 'https://img.icons8.com/emoji/96/blue-heart.png']);
+
+        function setupImageFallback(imgId, sources) {
+            const img = document.getElementById(imgId);
+            let index = 0;
+            img.onerror = function() {
+                index++;
+                if (index < sources.length) {
+                    img.src = sources[index];
+                }
+            };
+        }
+
+        // --- NO BUTTON LOGIC ---
         function resetNoButton() {
             const containerWidth = container.clientWidth;
             const gap = 16; 
@@ -202,13 +218,11 @@
 
         function moveNoButton(e) {
             e.preventDefault(); 
-            
             const containerRect = container.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
 
             const maxX = (containerRect.width / 2) - (btnRect.width / 2) - 10;
             const minX = -(containerRect.width / 2) + (btnRect.width / 2) + 10;
-            
             const minY = -120; 
             const maxY = 15;
 
