@@ -47,30 +47,44 @@
             letter-spacing: 0.3px;
         }
 
-        .media-container {
+        /* Pure CSS Heart Styling */
+        .heart-container {
             width: 100%;
-            max-width: 280px;
-            height: auto;
-            margin: 0 auto 20px auto;
+            height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-bottom: 25px;
         }
 
-        .cute-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 12px;
+        .css-heart {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            background-color: #ff4d6d;
+            transform: rotate(-45deg);
+            animation: heartBeat 1.2s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.4);
         }
 
-        .heart-img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin-bottom: 10px;
-            animation: pulse 1.4s infinite ease-in-out;
-            display: inline-block;
+        .css-heart::before,
+        .css-heart::after {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: #ff4d6d;
+            border-radius: 50%;
+        }
+
+        .css-heart::before {
+            top: -35px;
+            left: 0;
+        }
+
+        .css-heart::after {
+            top: 0;
+            left: 35px;
         }
 
         h2 {
@@ -134,10 +148,13 @@
             white-space: pre-line;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.12); }
-            100% { transform: scale(1); }
+        @keyframes heartBeat {
+            0% { transform: rotate(-45deg) scale(1); }
+            25% { transform: rotate(-45deg) scale(1.1); }
+            35% { transform: rotate(-45deg) scale(1.05); }
+            45% { transform: rotate(-45deg) scale(1.15); }
+            70% { transform: rotate(-45deg) scale(1); }
+            100% { transform: rotate(-45deg) scale(1); }
         }
     </style>
 </head>
@@ -146,9 +163,8 @@
     <div class="card" id="mainCard">
         <!-- SCREEN 1: THE REQUEST -->
         <div id="askScreen">
-            <div class="media-container">
-                <!-- Fallback supported image -->
-                <img class="cute-img" id="startImg" src="start.jpg" alt="I'm sorry please forgive me">
+            <div class="heart-container">
+                <div class="css-heart"></div>
             </div>
             <h2>Will you forgive me, love?</h2>
             <div class="btn-container" id="btnContainer">
@@ -160,12 +176,9 @@
         <!-- SCREEN 2: FORGIVEN -->
         <div id="successScreen" class="hidden">
             <div class="tag">For you</div>
-            <div>
-                <img class="heart-img" id="heartImg" src="heart.png" alt="Blue Heart">
-            </div>
             
-            <div class="media-container" style="max-width: 230px; margin-bottom: 15px;">
-                <img class="cute-img" id="letterImg" src="letter.jpg" alt="Cute Cat With Pink Bows">
+            <div class="heart-container" style="height: 110px;">
+                <div class="css-heart" style="transform: rotate(-45deg) scale(0.8); background-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);"></div>
             </div>
 
             <h2 style="margin-bottom: 15px;">Yay! Thank you, my favorite human 💖</h2>
@@ -180,27 +193,6 @@
     </div>
 
     <script>
-        // Automatic extension recovery script for Vercel case-sensitivity
-        function handleImageFallbacks(imgId, baseName) {
-            const imgElement = document.getElementById(imgId);
-            const extensions = ['.jpeg', '.jfif', '.png', '.JPG', '.JPEG', '.JFIF', '.PNG'];
-            let currentTrack = 0;
-
-            imgElement.addEventListener('error', function errorHandler() {
-                if (currentTrack < extensions.length) {
-                    imgElement.src = baseName + extensions[currentTrack];
-                    currentTrack++;
-                } else {
-                    imgElement.removeEventListener('error', errorHandler);
-                }
-            });
-        }
-
-        // Initialize fallback listeners
-        handleImageFallbacks('startImg', 'start');
-        handleImageFallbacks('letterImg', 'letter');
-        handleImageFallbacks('heartImg', 'heart');
-
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const askScreen = document.getElementById('askScreen');
